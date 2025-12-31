@@ -1,0 +1,58 @@
+{% extends 'student/base_new.html' %}
+
+{% block title %}Edit Student - Student Management System{% endblock %}
+
+{% block content %}
+<h1 class="page-title">
+    <i class="fas fa-edit"></i>
+    Edit Student: {{ student.name }}
+</h1>
+
+<div style="max-width: 550px;">
+    <div class="card">
+        <form method="POST" novalidate>
+            {% csrf_token %}
+            
+            {% if form.non_field_errors %}
+                <div class="alert alert-danger">
+                    {% for error in form.non_field_errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            {% for field in form %}
+                <div class="form-group">
+                    <label for="{{ field.id_for_label }}">
+                        {{ field.label }}
+                        {% if field.field.required %}
+                            <span style="color: #e74c3c;">*</span>
+                        {% endif %}
+                    </label>
+                    
+                    {% if field.errors %}
+                        {{ field }}
+                        <div style="color: #e74c3c; font-size: 0.8rem; margin-top: 5px;">
+                            {% for error in field.errors %}
+                                <p style="margin: 3px 0;">{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ field }}
+                    {% endif %}
+                </div>
+            {% endfor %}
+
+            <div class="btn-group" style="margin-top: 30px;">
+                <button type="submit" class="btn btn-success">
+                    <i class="fas fa-save"></i> Save Changes
+                </button>
+                <a href="{% url 'student_detail' student.id %}" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i> Cancel
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Student Management System{% endblock %}</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #fafbfc;
+            color: #2c3e50;
+            line-height: 1.6;
+        }
+
+        /* Navbar */
+        nav {
+            background: #ffffff;
+            padding: 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid #e8eef2;
+        }
+
+        .navbar-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .logo {
+            color: #2c3e50;
+            font-size: 1.6rem;
+            font-weight: 700;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo i {
+            color: #34495e;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 0;
+        }
+
+        .nav-links a {
+            color: #2c3e50;
+            text-decoration: none;
+            padding: 10px 18px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.95rem;
+        }
+
+        .nav-links a:hover {
+            background: #f0f3f7;
+            color: #34495e;
+        }
+
+        .nav-links a.active {
+            background: #ecf0f5;
+            color: #34495e;
+            border-bottom: 3px solid #34495e;
+        }
+
+        /* Messages */
+        .messages {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+
+        .alert {
+            padding: 15px 20px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            animation: slideIn 0.3s ease-out;
+            border-left: 4px solid;
+        }
+
+        .alert-success {
+            background-color: #f0fdf4;
+            color: #166534;
+            border-color: #22c55e;
+        }
+
+        .alert-danger {
+            background-color: #fef2f2;
+            color: #991b1b;
+            border-color: #ef4444;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+            min-height: calc(100vh - 200px);
+        }
+
+        .page-title {
+            font-size: 2rem;
+            color: #2c3e50;
+            margin-bottom: 35px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 600;
+        }
+
+        .page-title i {
+            color: #34495e;
+            font-size: 1.8rem;
+        }
+
+        /* Button Styles */
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 0.95rem;
+        }
+
+        .btn-primary {
+            background: #34495e;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #2c3e50;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(52, 73, 94, 0.25);
+        }
+
+        .btn-secondary {
+            background: #95a5a6;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #7f8c8d;
+        }
+
+        .btn-danger {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #c0392b;
+        }
+
+        .btn-success {
+            background: #27ae60;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #229954;
+        }
+
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 0.85rem;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 22px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #2c3e50;
+            font-size: 0.95rem;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 11px 13px;
+            border: 1px solid #d1d9e0;
+            border-radius: 5px;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: #ffffff;
+            color: #2c3e50;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #34495e;
+            box-shadow: 0 0 0 3px rgba(52, 73, 94, 0.08);
+        }
+
+        /* Table Styles */
+        .table-responsive {
+            background: white;
+            border-radius: 6px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: #f8f9fa;
+            border-bottom: 2px solid #e8eef2;
+        }
+
+        th {
+            padding: 14px 16px;
+            text-align: left;
+            font-weight: 600;
+            color: #34495e;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        td {
+            padding: 14px 16px;
+            border-bottom: 1px solid #eaeef2;
+            color: #2c3e50;
+        }
+
+        tbody tr:hover {
+            background-color: #f8f9fa;
+        }
+
+        /* Card Styles */
+        .card {
+            background: white;
+            border-radius: 6px;
+            padding: 28px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+            border: 1px solid #e8eef2;
+        }
+
+        .card:hover {
+            box-shadow: 0 3px 10px rgba(0,0,0,0.12);
+        }
+
+        .card-title {
+            font-size: 1.4rem;
+            color: #2c3e50;
+            margin-bottom: 18px;
+            font-weight: 600;
+        }
+
+        /* Stat Cards */
+        .stat-card {
+            background: white;
+            border-radius: 6px;
+            padding: 22px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+            border-left: 4px solid #34495e;
+        }
+
+        .stat-number {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #34495e;
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #7f8c8d;
+            font-weight: 500;
+        }
+
+        /* Footer */
+        footer {
+            background: #2c3e50;
+            color: #ecf0f1;
+            text-align: center;
+            padding: 30px 20px;
+            margin-top: 60px;
+            border-top: 1px solid #34495e;
+        }
+
+        footer p {
+            margin: 5px 0;
+            font-size: 0.95rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .navbar-container {
+                flex-direction: column;
+                height: auto;
+                padding: 10px 20px;
+            }
+
+            .nav-links {
+                width: 100%;
+                flex-direction: column;
+                margin-top: 10px;
+            }
+
+            .nav-links a {
+                padding: 10px 0;
+                border-bottom: 1px solid #e8eef2;
+            }
+
+            .page-title {
+                font-size: 1.6rem;
+            }
+
+            .container {
+                padding: 0 15px;
+            }
+
+            table {
+                font-size: 0.9rem;
+            }
+
+            th, td {
+                padding: 10px;
+            }
+        }
+    </style>
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="navbar-container">
+            <a href="{% url 'home' %}" class="logo">
+                <i class="fas fa-graduation-cap"></i>
+                Student Manager
+            </a>
+            <ul class="nav-links">
+                <li><a href="{% url 'home' %}" class="{% if request.resolver_match.url_name == 'home' %}active{% endif %}"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="{% url 'student_list' %}" class="{% if request.resolver_match.url_name == 'student_list' %}active{% endif %}"><i class="fas fa-users"></i> Students</a></li>
+                <li><a href="{% url 'results_list' %}" class="{% if request.resolver_match.url_name == 'results_list' %}active{% endif %}"><i class="fas fa-chart-bar"></i> Results</a></li>
+                <li><a href="{% url 'add_student' %}" class="{% if request.resolver_match.url_name == 'add_student' %}active{% endif %}"><i class="fas fa-user-plus"></i> Add Student</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Messages -->
+    {% if messages %}
+    <div class="messages">
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- Main Content -->
+    <div class="container">
+        {% block content %}{% endblock %}
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 Student Management System</p>
+        <p>A professional student management solution</p>
+    </footer>
+
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

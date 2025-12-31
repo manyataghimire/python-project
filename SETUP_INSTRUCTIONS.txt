@@ -1,0 +1,40 @@
+INSTRUCTIONS TO SEE THE CHANGES ON YOUR WEBSITE
+================================================
+
+Step 1: Open PowerShell and navigate to the project directory:
+   cd "c:\Users\Dell\student_project\student_mgmt"
+
+Step 2: Run the database population script:
+   python setup_database.py
+
+This will:
+   ✓ Clear the existing database
+   ✓ Create 100 engineering students
+   ✓ Create 600 results (6 subjects per student)
+   ✓ Calculate statistics
+
+Step 3: Start or restart the Django server:
+   python manage.py runserver
+
+Step 4: Open your browser and go to:
+   http://127.0.0.1:8000/
+
+Step 5: You will now see:
+   ✓ Updated dashboard with 100 students
+   ✓ Updated statistics (100 students, 600 results)
+   ✓ All students with Engineering courses
+   ✓ Each student with 6 subjects
+   ✓ GPA calculations for each student
+   ✓ Motivational feedback for results
+
+---
+
+If you get any errors, make sure:
+1. You're in the correct directory
+2. Your Python virtual environment is activated
+3. Django is installed in your environment
+
+For quick help:
+   - To activate venv: .venv\Scripts\activate
+   - To run Django server: python manage.py runserver
+   - To view in browser: http://127.0.0.1:8000/

@@ -1,0 +1,30 @@
+{% extends 'student/base_new.html' %}
+
+{% block title %}Delete Result - Confirmation{% endblock %}
+
+{% block content %}
+<div style="max-width: 500px; margin: 50px auto;">
+    <div class="card" style="text-align: center; padding: 50px;">
+        <i class="fas fa-exclamation-triangle" style="font-size: 3rem; color: #e74c3c; margin-bottom: 20px;"></i>
+        <h2 style="color: #2c3e50; margin-bottom: 15px;">Confirm Deletion</h2>
+        <p style="color: #34495e; font-size: 1rem; margin-bottom: 30px;">
+            Are you sure you want to delete this result?<br>
+            <strong>{{ result.student.name }} - {{ result.subject }} ({{ result.marks }} marks)</strong><br>
+            <small style="color: #7f8c8d; margin-top: 10px; display: block;">This action cannot be undone.</small>
+        </p>
+        
+        <form method="POST" style="display: inline;">
+            {% csrf_token %}
+            <div class="btn-group" style="margin-top: 0;">
+                <button type="submit" class="btn btn-danger">
+                    <i class="fas fa-trash"></i> Yes, Delete Result
+                </button>
+                <a href="{% url 'results_list' %}" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i> Cancel
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}
